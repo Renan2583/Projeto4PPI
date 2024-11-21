@@ -1,0 +1,25 @@
+{
+  "name": "projetoaula3ppi",
+  "version": "1.0.0",
+  "description": "Projeto aula 3",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Renan2583/ProjetoAula3PPI.git"
+  },
+  "author": "Renan Coimbra",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Renan2583/ProjetoAula3PPI/issues"
+  },
+  "homepage": "https://github.com/Renan2583/ProjetoAula3PPI#readme",
+  "dependencies": {
+    "express": "^4.21.1",
+    "nodemon": "^3.1.7"
+  }
+}

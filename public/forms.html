@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Empresa</title>
+    <h1>Cadastre Sua Empresa </h1>
+</head>
+<body>
+    <form action="/formulario" method="post" class="formulario">
+        <label for="razao">Razão Social</label>
+        <input type="text" id="razao" name="razao" required>
+        <label for="cnpj">CNPJ:</label>
+        <input type="number" id="cnpj" name="cnpj" required>
+        <label for="fantasia">Nome Fantasia</label>
+        
+        <input type="text" id="fantasia" name="fantasia" required>
+        <label for="cep">CEP</label>
+        <input type="number" id="cep" name="cep" required placeholder="Digite o CEP sem separação">
+        <label for="cidade">Cidade</label>
+        <input type="text" id="cidade" name="cidade" required>
+        <label for="UF">Estado</label>
+        <input type="text" id="estado" name="estado" required>
+        <label for="rua">Bairro</label>
+        <input type="text" id="bairro" name="bairro" required>
+        <label for="rua">Rua</label>
+        <input type="text" id="rua" name="rua" required>
+        <label for="email">Email:</label>
+        <input type="text" id="email" name="email" required>
+        <label for="telefone">Telefone:</label>
+        <input type="text" id="telefone" name="telefone" required>
+        <button type="submit" class="btn">Enviar</button>
+        <button type="reset" value="Reset" class="btn1">Resetar Dados</button>
+    </form>
+    <button class="btn"><a href="menu.html" >Voltar Ao Menu</a></button>
+    <script src="index.js"></script>
+    <script language="JavaScript" type="text/javascript" src="buscacep.js"></script>
+</body>
+</html>
