@@ -1,12 +1,26 @@
-import express from 'express';
+import express, { response } from 'express';
 import { link } from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import session from 'express-session';//Importando A Seção Do Modulo Express
+
 
 const app = express();
 const port = 4000;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
+//Configurar uma sessão a fim de permitir que a aplicação seja capaz de lembrar com quem ela está se comunicando.
+app.use(session({
+    secret: 'MinhaChaveSecreta',
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+        secure: false,
+        httpOnly: true,
+        maxAge: 1000 * 60 * 30 // 30 minutos em Ocioso ira excluir a sessão.
+    }
+}));
 
 // Middleware para analisar os dados do formulário
 app.use(express.urlencoded({ extended: true }));
@@ -14,12 +28,55 @@ app.use(express.urlencoded({ extended: true }));
 // Serve arquivos estáticos da pasta 'public'
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(express.static('./paginas/publica'));
+
 // Lista para armazenar as empresas
 let listaEmpresa = [];
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'menu.html'));
 });
 
+function autenticarUsuario(req, res) {//Funcao para validar o usuario e senha
+   const usuario= req.body.usuario;
+   const senha = req.body.senha;
+
+    if (usuario === 'renan' && senha === '123') {//Verificar se o Login é Válido
+       req.session.usuarioLogado = true;
+       res.redirect('/');
+   } else {
+       res.write(`
+       <html>
+       <head>
+           <meta charset="UTF-8">
+           <title>Autenticação do Sistema</title>
+           <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+       </head>
+       <body>
+           <h1 class="text-center">Autenticação do Sistema</h1>
+           <div class="container w-25">
+               <div class="alert alert-danger" role="alert">
+                   Usuário ou senha inválidos!
+               </div>
+           </div>
+           <div>
+           
+           script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+           </script>
+       </body>
+       </html>
+       `);
+       res.end();
+       
+   }
+}
+
+app.get('/login', (req, res) => {
+    res.redirect('/login.html');
+});
+
+app.post('/login', autenticarUsuario);
+app.get('/', verificarAutenticacao)
+app.get('/forms', verificarAutenticacao);
 
 // Rota para o formulário
 app.get('/formulario', (req, res) => {
@@ -86,6 +143,14 @@ app.post('/formulario', (req, res) => {
     `);
     res.end();
 });
+
+function verificarAutenticacao(req, res, next) {
+    if (req.session.usuarioLogado) {
+        next();//Permite acessar os recursos solicitados
+    } else {
+        res.redirect('/login');//Redireciona para tentar logar novamente
+    }
+}
 
 app.listen(port, () => {
     console.log(`Servidor rodando em http://localhost:${port}`);
